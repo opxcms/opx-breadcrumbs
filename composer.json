@@ -30,5 +30,10 @@
       "Modules\\Opx\\Breadcrumbs\\": "src/"
     }
   },
+  "extra": {
+    "opxcms" : {
+      "module": "Modules\\Opx\\Breadcrumbs\\Breadcrumbs"
+    }
+  },
   "minimum-stability": "dev"
 }
