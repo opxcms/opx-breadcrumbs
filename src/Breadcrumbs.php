@@ -7,6 +7,12 @@ use Modules\Opx\Breadcrumbs\Interfaces\Breadcrumbs as BreadcrumbsInterface;
 
 class Breadcrumbs extends BaseModule
 {
+    /** @var string  Module name */
+    protected $name = 'opx_breadcrumbs';
+
+    /** @var string  Module path */
+    protected $path = __DIR__;
+
     public function make($model, $currentAsH1 = false, $classPrefix = 'breadcrumbs'): ?string
     {
         if (!$model instanceof BreadcrumbsInterface) {
