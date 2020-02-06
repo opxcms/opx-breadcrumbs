@@ -1,12 +1,12 @@
 <?php
 
 return [
-    // Is homepage shown
+    // Is homepage shown as first node
     'home' => true,
 
-    // Is current page shown
+    // Show current node
     'current' => true,
 
-    // Is link node for current page
+    // Make link for current node
     'link' => false,
 ];

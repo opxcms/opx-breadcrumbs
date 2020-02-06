@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method  static string  name()
- * @method  static string  make($model, $currentAsH1 = false, $classPrefix = 'breadcrumbs'): ?string
+ * @method  static string|null  make($model, $currentAsH1 = false, $classPrefix = 'breadcrumbs')
  * @method  static string  path($path = '')
  * @method  static array|string|null  config($key = null)
  * @method  static mixed  view($view)
