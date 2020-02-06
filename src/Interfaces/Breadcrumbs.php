@@ -8,23 +8,23 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 interface Breadcrumbs
 {
     /**
-     * Get parent model.
+     * Get parent breadcrumb node.
      *
-     * @return  Relation|null
+     * @return  Breadcrumbs|null
      */
-    public function parent(): ?Relation;
+    public function breadcrumbParent(): ?Breadcrumbs;
 
     /**
-     * Get link to model.
+     * Get link to breadcrumb.
      *
-     * @return null|string
+     * @return string|null
      */
-    public function link(): ?string;
+    public function breadcrumbLink(): ?string;
 
     /**
-     * Get title for breadcrumbs.
+     * Get title for breadcrumb.
      *
-     * @return  null|string
+     * @return  string|null
      */
     public function breadcrumbTitle(): ?string;
 }

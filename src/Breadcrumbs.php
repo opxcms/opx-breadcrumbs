@@ -13,15 +13,24 @@ class Breadcrumbs extends BaseModule
     /** @var string  Module path */
     protected $path = __DIR__;
 
-    public function make($model, $currentAsH1 = false, $classPrefix = 'breadcrumbs'): ?string
+    /**
+     * Render breadcrumbs chain for given endpoint.
+     *
+     * @param $endPoint
+     * @param bool $currentAsH1
+     * @param string $classPrefix
+     *
+     * @return  string|null
+     */
+    public function make($endPoint, $currentAsH1 = false, $classPrefix = 'breadcrumbs'): ?string
     {
-        if (!$model instanceof BreadcrumbsInterface) {
+        if (!$endPoint instanceof BreadcrumbsInterface) {
             return null;
         }
 
-        $nodes = $this->getNode($model, $this->config('current'), $this->config('link'));
+        $nodes = $this->getNode($endPoint, $this->config('current'), $this->config('link'));
 
-        if ($this->config('home') && $model->link() !== '/') {
+        if ($this->config('home') && $endPoint->breadcrumbLink() !== '/') {
             $nodes = array_merge(
                 [[
                     'link' => '/',
@@ -47,21 +56,15 @@ class Breadcrumbs extends BaseModule
      */
     protected function getNode($model, $show, $link, $current = true): ?array
     {
-        $parent = $model->parent();
+        $parent = $model->breadcrumbParent();
 
         if ($parent !== null) {
-
-            $parent = $model->parent;
-
-            if ($parent instanceof BreadcrumbsInterface) {
-
-                $parentNode = $this->getNode($parent, true, true, false);
-            }
+            $parentNode = $this->getNode($parent, true, true, false);
         }
 
         $currentNode = $show ? [
             'title' => $model->breadcrumbTitle(),
-            'link' => $link ? $model->link() : null,
+            'link' => $link ? $model->breadcrumbLink() : null,
             'current' => $current,
         ] : [];
 
@@ -89,14 +92,17 @@ class Breadcrumbs extends BaseModule
 
             $previous = $node['link'];
 
-            if ($currentAsH1 && $node['current']) {
-                $html .= $node['link']
-                    ? "<li class=\"{$classPrefix}__node {$classPrefix}__node-active\"><a class=\"{$classPrefix}__node-title\" href='{$node['link']}'><h1>{$node['title']}</h1></a></li>"
-                    : "<li class=\"{$classPrefix}__node {$classPrefix}__node-active\"><h1 class=\"{$classPrefix}__node-title\">{$node['title']}</h1></li>";
-            } elseif (!$currentAsH1 && $node['current']) {
-                $html .= $node['link']
-                    ? "<li class=\"{$classPrefix}__node {$classPrefix}__node-active\"><a class=\"{$classPrefix}__node-title\" href='{$node['link']}'>{$node['title']}</a></li>"
-                    : "<li class=\"{$classPrefix}__node {$classPrefix}__node-active\"><span class=\"{$classPrefix}__node-title\">{$node['title']}</span></li>";
+            if ($node['current']) {
+                if ($currentAsH1) {
+                    $html .= $node['link']
+                        ? "<li class=\"{$classPrefix}__node {$classPrefix}__node-active\"><a class=\"{$classPrefix}__node-title\" href='{$node['link']}'><h1>{$node['title']}</h1></a></li>"
+                        : "<li class=\"{$classPrefix}__node {$classPrefix}__node-active\"><h1 class=\"{$classPrefix}__node-title\">{$node['title']}</h1></li>";
+
+                } else {
+                    $html .= $node['link']
+                        ? "<li class=\"{$classPrefix}__node {$classPrefix}__node-active\"><a class=\"{$classPrefix}__node-title\" href='{$node['link']}'>{$node['title']}</a></li>"
+                        : "<li class=\"{$classPrefix}__node {$classPrefix}__node-active\"><span class=\"{$classPrefix}__node-title\">{$node['title']}</span></li>";
+                }
             } else {
                 $html .= $node['link']
                     ? "<li class=\"{$classPrefix}__node {$classPrefix}__node-parent\"><a class=\"{$classPrefix}__node-title\" href='{$node['link']}'>{$node['title']}</a></li>"
