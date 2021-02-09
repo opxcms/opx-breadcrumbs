@@ -2,9 +2,6 @@
 
 namespace Modules\Opx\Breadcrumbs\Interfaces;
 
-
-use Illuminate\Database\Eloquent\Relations\Relation;
-
 interface Breadcrumbs
 {
     /**

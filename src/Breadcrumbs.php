@@ -54,7 +54,7 @@ class Breadcrumbs extends BaseModule
      *
      * @return  array|null
      */
-    protected function getNode($model, $show, $link, $current = true): ?array
+    protected function getNode(BreadcrumbsInterface $model, bool $show, bool $link, $current = true): ?array
     {
         $parent = $model->breadcrumbParent();
 
@@ -80,7 +80,7 @@ class Breadcrumbs extends BaseModule
      *
      * @return  null|string
      */
-    protected function render($nodes, $classPrefix, $currentAsH1): ?string
+    protected function render(array $nodes, string $classPrefix, bool $currentAsH1): ?string
     {
         $html = "<ul class=\"{$classPrefix}\">";
         $previous = null;
